@@ -1,0 +1,29 @@
+@co.Include( "Eigen/Dense" )
+native class Quat
+{
+	<c++
+		#include <Eigen/Dense>
+		namespace eigen { typedef Eigen::Quaterniond Quat; } 
+	c++>
+
+	double x;
+	double y;
+	double z;
+	double w;
+
+	void setXYZW( in double x, in double y, in double z, in double w );
+	void getXYZW( out double x, out double y, out double z, out double w );
+	void getAngleAxis( out double degrees, out Vec3 axis );
+
+	void conjugate();
+	void cross( in Quat q );
+	double dot( in Quat q );
+	void inverse();
+	void mix( in Quat q, in double factor );
+	void mul( in Quat q );
+	void rotate( in double degrees, in Vec3 axis );
+	void rotationFromTo( in Vec3 from, in Vec3 to );
+
+	void copy( in Quat q );
+	void fromMat4( in Mat4 m );
+};

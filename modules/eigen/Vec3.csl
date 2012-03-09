@@ -1,0 +1,51 @@
+@co.Include( "Eigen/Dense" )
+native class Vec3
+{
+	<c++
+		#include <Eigen/Dense> 
+		namespace eigen { typedef Eigen::Vector3d Vec3; }
+	c++>
+
+	double x;
+	double y;
+	double z;
+
+	void setXYZ( in double x, in double y, in double z );
+
+	void getXYZ( out double x, out double y, out double z );
+
+	// Performs a multiplication by a scalar
+	void mul( in double value );
+
+	// Performs a piecewise addition
+	void add( in Vec3 v );
+
+	// Performs a piecewise subtraction
+	void sub( in Vec3 v );
+
+	void copy( in Vec3 v );
+
+	// Performs a vectorial product
+	void cross( in Vec3 v );
+
+	// Performs a scalar product
+	double dot( in Vec3 v );
+
+	// Returns if the given Vec3 is identical to the current instance
+	bool equals( in Vec3 v );
+
+	// Returns the vector length
+	double length();
+
+	// Returns the LERP result between this and v by factor
+	void mix( in Vec3 v, in double factor );
+
+	// Normalizes this to the length of 1
+	void normalize();
+
+	void transform( in Mat4 m );
+
+	void mulQuatVec( in Quat q );
+
+	void mulVecQuat( in Quat q );
+};
