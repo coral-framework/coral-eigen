@@ -5,6 +5,7 @@ local M = {}
 -------------------------------------------------------------------------------
 function M.Vec3( x, y, z )
 	out = co.new "eigen.Vec3"
+	out:setXYZ( 0, 0, 0 )
 	if z then
 		out:setXYZ( x, y, z )
 	end
@@ -12,11 +13,15 @@ function M.Vec3( x, y, z )
 end
 
 function M.Mat4()
-	return co.new "eigen.Mat4"
+	out = co.new "eigen.Mat4"
+	out:identity()
+	return out
 end
 
 function  M.Quat( other )
-	return co.new "eigen.Quat"
+	out = co.new "eigen.Quat"
+	out:setWXYZ( 1, 0, 0, 0 )
+	return out
 end
 
 --[[---------------------------------------------------------------------------
@@ -40,7 +45,7 @@ function M.screenToClip( x, y, width, height )
 end
 
 -- Constants
-M.PI = 3.1415926535
+M.PI = 3.14159265358979323846
 M.PI_2 = M.PI * 0.5
 M.rad2deg = 180 / M.PI
 M.deg2rad = M.PI / 180
@@ -69,7 +74,6 @@ end
 -- returns the Vec3 linear interpolation from v1 to v2 at position 'factor'
 function M.lerp( v1, v2, factor, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v1 )
 	out:mix( v2, factor )
 	return out	
@@ -78,7 +82,6 @@ end
 -- returns the Vec3 normalized copy Vec3 v
 function M.normalize( v, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v )
 	out:normalize()
 	return out	
@@ -102,7 +105,6 @@ end
 -- returns the Vec3 result of the Vec3 v1 + Vec3 v2
 function M.addVec( v1, v2, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v1 )
 	out:add( v2 )
 	return out	
@@ -111,7 +113,6 @@ end
 -- returns the Vec3 result of v1 - v2
 function M.subVec( v1, v2, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v1 )
 	out:sub( v2 )
 	return out	
@@ -120,7 +121,6 @@ end
 -- returns the Vec3 result of Vec3 v * Scalar s
 function M.mulVecScalar( v, s, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v )
 	out:mul( s )
 	return out	
@@ -129,7 +129,6 @@ end
 -- returns the Vec3 result of Vec3 v / Scalar s
 function M.divVecScalar( v, s, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v )
 	out:mul( 1 / s )
 	return out	
@@ -138,7 +137,6 @@ end
 -- returns the Vec3 result of (inverse of Quat q) * Vec3 v
 function M.mulVecQuat( v, q, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v )
 	out:mulVecQuat( q )
 	return out	
@@ -147,7 +145,6 @@ end
 -- returns the Vec3 result of Quat q * Vec3 v
 function M.mulQuatVec( q, v, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v )
 	out:mulQuatVec( q )
 	return out	
@@ -178,7 +175,6 @@ end
 -- returns the Mat4 inserve of m
 function M.inverseMat( m, out )
 	out = out or co.new "eigen.Mat4"
-	
 	out:copy( m )
 	out:invert()
 	return out	
@@ -187,7 +183,6 @@ end
 -- returns the Mat4 inserve of m
 function M.transpose( m, out )
 	out = out or co.new "eigen.Mat4"
-	
 	out:copy( m )
 	out:transpose()
 	return out	
@@ -196,7 +191,6 @@ end
 -- rotates a copy of Mat4 m by Scalar degrees around Vec3 axis and returns it
 function M.rotate( m, degrees, axis, out )
 	out = out or co.new "eigen.Mat4"
-	
 	out:copy( m )
 	out:rotate( degrees, axis )
 	return out	
@@ -205,7 +199,6 @@ end
 -- returns a Mat4 that rotates a direction from Vec3 from to Vec3 to
 function M.rotationFromToMat4( from, to, out )
 	out = out or co.new "eigen.Mat4"
-	
 	out:rotationFromTo( from, to )
 	return out	
 end
@@ -213,7 +206,6 @@ end
 -- scales a copy of m by the amount on each axis of Vec3 scale and returns it
 function M.scale( m, scale, out )
 	out = out or co.new "eigen.Mat4"
-	
 	out:copy( m )
 	out:scale( scale )
 	return out	
@@ -222,7 +214,6 @@ end
 -- translates a copy of m by Vec3 position and returns it
 function M.translate( m, position, out )
 	out = out or co.new "eigen.Mat4"
-	
 	out:copy( m )
 	out:translate( position )
 	return out	
@@ -231,12 +222,10 @@ end
 -- returns the Vec3 result of ( Mat4 m * Vec3 v )
 function M.transform( m, v, out )
 	out = out or co.new "eigen.Vec3"
-	
 	out:copy( v )
 	out:transform( m )
 	return out	 
 end
-
 
 -- returns the mat4 result of mat4 m1 + m2
 function M.addMat( m1, m2, out )
@@ -296,17 +285,17 @@ end
 -------------------------------------------------------------------------------
 -- Quat functions 
 -------------------------------------------------------------------------------
--- gets Quat q Scalar x,y,z,w coordinates
-function M.getXYZW( q )
-	return q:getXYZW()
+-- gets Quat q Scalar w,x,y,z coordinates
+function M.getWXYZ( q )
+	return q:getWXYZ()
 end
 
--- sets Quat q Scalar x,y,z,w coordinates
-function M.setXYZW( q, x, y, z, w )
-	q:setXYZW( x, y, z, w )
+-- sets Quat q Scalar w,x,y,z coordinates
+function M.setWXYZ( q, w, x, y, z )
+	q:setWXYZ( w, x, y, z )
 end
 
--- returns the Scalar degrees Scalar x,y,z,w coordinates
+-- returns the Scalar degrees Scalar w,x,y,z coordinates
 function M.getAngleAxis( q )
 	return q:getAngleAxis()
 end
@@ -314,7 +303,6 @@ end
 -- returns a Quat containing the rotation of Mat4 m
 function M.fromMat4( m, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:fromMat4( m )
 	return out
 end
@@ -322,7 +310,6 @@ end
 -- returns the Quat conjugate of q
 function M.conjugate( q, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:copy( q )
 	out:conjugate()
 	return out
@@ -336,7 +323,6 @@ end
 -- returns the Quat result of Quat q1 cross against Quat q2
 function M.crossQuat( q1, q2, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:copy( q1 )
 	out:cross( q2 )
 	return out
@@ -345,7 +331,6 @@ end
 -- returns the Quat inverse of Quat q
 function M.inverseQuat( q, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:copy( q )
 	out:inverse()
 	return out
@@ -354,7 +339,6 @@ end
 -- returns the Quat result of Quat q1 * Quat q2
 function M.mulQuat( q1, q2, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:copy( q1 )
 	out:mul( q2 )
 	return out
@@ -363,7 +347,6 @@ end
 -- returns the Quat result of shortest path SLERP between Quat q1 and q2 
 function M.mix( q1, q2, factor, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:copy( q1 )
 	out:mix( q2, factor )
 	return out
@@ -372,7 +355,6 @@ end
 -- rotates a copy of Quat q by Scalar degrees around Vec3 axis and returns it
 function M.rotateQuat( q, degrees, axis, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:copy( q )
 	out:rotate( degrees, axis )
 	return out
@@ -381,7 +363,6 @@ end
 -- returns a Quat that rotates a direction from Vec3 from to Vec3 to
 function M.rotationFromToQuat( from, to, out )
 	out = out or co.new "eigen.Quat"
-	
 	out:rotationFromTo( from, to )
 	return out	
 end
