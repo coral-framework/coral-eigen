@@ -1,4 +1,3 @@
-@co.Include( "Eigen/Dense" )
 native class Quat
 {
 	<c++
