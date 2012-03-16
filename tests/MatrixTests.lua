@@ -112,7 +112,6 @@ function rotationFromToTest()
 	ASSERT_NEAR( z1, z2, DOUBLE_TOLERANCE )
 end
 
---[[
 function fromQuatTest()
 	local q = eigen.Quat()
 	eigen.setWXYZ( q, 0, 0, 1, 0 )
@@ -125,34 +124,34 @@ function fromQuatTest()
 		end
 	end
 end
-]]--
 
---[[
 function cameraTest()
 	m1 = eigen.lookAt( eigen.Vec3( 0, 0, -1 ), eigen.Vec3( 0, 0, 1 ), eigen.Vec3( 0, 1, 0 ) )
 	ASSERT_NEAR( eigen.getElement( m1, 0, 0 ), -1 )
 	ASSERT_NEAR( eigen.getElement( m1, 2, 2 ), -1 )
-	ASSERT_NEAR( eigen.getElement( m1, 3, 2 ), -1 )
+	--translation
+	ASSERT_NEAR( eigen.getElement( m1, 0, 3 ), 0 )
+	ASSERT_NEAR( eigen.getElement( m1, 1, 3 ), 0 )
+	ASSERT_NEAR( eigen.getElement( m1, 2, 3 ), 1 )
 	
 	m2 = eigen.frustum( -1, 1, -1, 1, 2, 4 )
 	ASSERT_NEAR( eigen.getElement( m2, 0, 0 ), 2, DOUBLE_TOLERANCE )
 	ASSERT_NEAR( eigen.getElement( m2, 2, 2 ), -3, DOUBLE_TOLERANCE )
-	ASSERT_NEAR( eigen.getElement( m2, 3, 2 ), -8, DOUBLE_TOLERANCE )
+	ASSERT_NEAR( eigen.getElement( m2, 2, 3 ), -8, DOUBLE_TOLERANCE )
 	
 	m3 = eigen.ortho( -1, 1, -1, 1 )
 	ASSERT_DOUBLE_EQ( eigen.getElement( m3, 0, 0 ), 1 )
 	ASSERT_DOUBLE_EQ( eigen.getElement( m3, 2, 2 ), -1 )
-	ASSERT_DOUBLE_EQ( eigen.getElement( m3, 3, 2 ), 0 )
+	ASSERT_DOUBLE_EQ( eigen.getElement( m3, 2, 3 ), 0 )
 	
 	m4 = eigen.perspective( 3.1415 / 2, 1.0, 1.0, 10.0 )
 	ASSERT_DOUBLE_EQ( eigen.getElement( m4, 0, 0 ), 72.948834620885 )
 	ASSERT_DOUBLE_EQ( eigen.getElement( m4, 2, 2 ), -11/9 )
-	ASSERT_DOUBLE_EQ( eigen.getElement( m4, 2, 3 ), -1 )
+	ASSERT_DOUBLE_EQ( eigen.getElement( m4, 3, 2 ), -1 )
 	
 	m1 = m3 * m1
 	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 0, 0 ), -1 )
 	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 2, 2 ), 1 )
-	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 3, 2 ), 1 )
+	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 2, 3 ), -1 )
 end
-]]--
 

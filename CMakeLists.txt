@@ -39,7 +39,7 @@ ENDIF()
 INSTALL( DIRECTORY ${CMAKE_BINARY_DIR}/modules/eigen DESTINATION modules )
 
 #install g-truc eigen headers
-INSTALL( DIRECTORY ${CMAKE_SOURCE_DIR}/include/eigen DESTINATION include )
+INSTALL( DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include )
 
 # install CSL files
 INSTALL( DIRECTORY ${CMAKE_SOURCE_DIR}/modules/ DESTINATION modules )

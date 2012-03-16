@@ -79,7 +79,8 @@ double Quat_Adapter::dot( eigen::Quat& instance, const eigen::Quat& q )
 
 void Quat_Adapter::fromMat4( eigen::Quat& instance, const eigen::Mat4& m )
 {
-	/////////////////////////////////////////////////////
+	instance = instance.Identity();
+	instance = m.topLeftCorner<3, 3>();
 }
 
 void Quat_Adapter::getWXYZ( eigen::Quat& instance, double& w, double& x, double& y, double& z )

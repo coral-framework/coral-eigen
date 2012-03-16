@@ -118,7 +118,6 @@ function dotCrossConjTest()
 	ASSERT_QUAT_EQ( q1, q2 )
 end
 
---[[
 function getSetMatTest()
 	q1 = eigen.Quat()
 	q2 = eigen.Quat()
@@ -128,4 +127,3 @@ function getSetMatTest()
 	eigen.fromMat4( m1, q1 )
 	ASSERT_QUAT_EQ( q1, q2 )
 end
-]]--
