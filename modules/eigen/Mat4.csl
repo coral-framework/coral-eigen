@@ -1,3 +1,4 @@
+@co.Include( "Eigen/Dense" )
 native class Mat4
 {
 	<c++
