@@ -14,9 +14,10 @@ PROJECT( CORAL_EIGEN )
 set( CMAKE_MODULE_PATH "${CORAL_ROOT}/cmake" "$ENV{CORAL_ROOT}/cmake" ${CMAKE_MODULE_PATH} )
 find_package( Coral REQUIRED )
 
-SET( CORAL_PATH ${CORAL_PATH}
+SET( CORAL_PATH
 	"${CMAKE_BINARY_DIR}/modules"
 	"${CMAKE_SOURCE_DIR}/modules"
+	${CORAL_PATH}
 )
 
 ################################################################################
