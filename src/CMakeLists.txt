@@ -2,32 +2,30 @@
 # Build the Module
 ################################################################################
 
-CORAL_GENERATE_MODULE( _MODULE_SOURCES eigen )
+coral_generate_module( _MODULE_SOURCES eigen )
 
-INCLUDE_DIRECTORIES(
+include_directories(
 	${CORAL_INCLUDE_DIRS}
-	${CMAKE_SOURCE_DIR}/include/
-	${CMAKE_SOURCE_DIR}/include/eigen/
+	${CMAKE_SOURCE_DIR}/include
 	${CMAKE_CURRENT_BINARY_DIR}/generated
 )
 
-# The below definition yields compile problems under vc2010
+# The below definitions yield compile problems under vc2010
 #set_property( DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "EIGEN_DONT_VECTORIZE" )
+#set_property( DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT" )
+#set_property( DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "EIGEN_DONT_ALIGN_STATICALLY" )
 
-set_property( DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT" )
-set_property( DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS "EIGEN_DONT_ALIGN_STATICALLY" )
+file( GLOB _SOURCE_FILES *.cpp )
+file( GLOB _HEADER_FILES *.hpp )
 
-FILE( GLOB _SOURCE_FILES *.cpp )
-FILE( GLOB _HEADER_FILES *.hpp )
+add_library( eigen MODULE ${_HEADER_FILES} ${_SOURCE_FILES} ${_MODULE_SOURCES} )
 
-ADD_LIBRARY( eigen MODULE ${_HEADER_FILES} ${_SOURCE_FILES} ${_MODULE_SOURCES} )
+target_link_libraries( eigen ${CORAL_LIBRARIES} )
 
-TARGET_LINK_LIBRARIES( eigen ${CORAL_LIBRARIES} )
-
-CORAL_MODULE_TARGET( "eigen" eigen )
+coral_module_target( "eigen" eigen )
 
 ################################################################################
 # Source Groups
 ################################################################################
 
-SOURCE_GROUP( "@Generated" FILES ${_MODULE_SOURCES} )
+source_group( "@Generated" FILES ${_MODULE_SOURCES} )
