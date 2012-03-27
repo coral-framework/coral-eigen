@@ -1,8 +1,8 @@
 native class Mat4
 {
 	<c++
-		#include <Eigen/Dense>
-		namespace eigen { typedef Eigen::Matrix4d Mat4; } 
+		#include <Eigen/Geometry>
+		namespace eigen { typedef Eigen::Matrix4d Mat4; }
 	c++>
 
 	double getElement( in int32 i, in int32 j );

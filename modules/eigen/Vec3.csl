@@ -1,7 +1,7 @@
 native class Vec3
 {
 	<c++
-		#include <Eigen/Dense> 
+		#include <Eigen/Geometry>
 		namespace eigen { typedef Eigen::Vector3d Vec3; }
 	c++>
 

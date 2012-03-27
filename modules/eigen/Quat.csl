@@ -1,13 +1,10 @@
 native class Quat
 {
 	<c++
-		#include <Eigen/Dense>
-		inline bool operator ==( const Eigen::Quaterniond& a, const Eigen::Quaterniond& b )
-		{
-			return true;
-		}
-		namespace eigen { typedef Eigen::Quaterniond Quat; } 
+		#include <Eigen/Geometry>
+		namespace eigen { typedef Eigen::Quaterniond Quat; }
 	c++>
+
 	double w;
 	double x;
 	double y;
