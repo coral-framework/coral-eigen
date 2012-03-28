@@ -27,6 +27,9 @@
 #ifndef EIGEN_MACROS_H
 #define EIGEN_MACROS_H
 
+// HACK: the next line is a hardcoded setting for the Coral module
+#define EIGEN_DONT_ALIGN
+
 #define EIGEN_WORLD_VERSION 3
 #define EIGEN_MAJOR_VERSION 0
 #define EIGEN_MINOR_VERSION 5
@@ -39,7 +42,7 @@
 #else
   #define EIGEN_GNUC_AT_LEAST(x,y) 0
 #endif
- 
+
 #ifdef __GNUC__
   #define EIGEN_GNUC_AT_MOST(x,y) ((__GNUC__==x && __GNUC_MINOR__<=y) || __GNUC__<x)
 #else
