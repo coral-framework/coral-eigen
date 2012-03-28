@@ -72,9 +72,9 @@ function rotationFromToTest()
 	eigen.normalize( v2, v2 )
 	local x1,y1,z1 = eigen.getXYZ( v1 )
 	local x2,y2,z2 = eigen.getXYZ( v2 )
-	ASSERT_NEAR( x1, x2, DOUBLE_TOLERANCE )
-	ASSERT_NEAR( y1, y2, DOUBLE_TOLERANCE )
-	ASSERT_NEAR( z1, z2, DOUBLE_TOLERANCE )
+	ASSERT_NEAR( x1, x2, TOLERANCE )
+	ASSERT_NEAR( y1, y2, TOLERANCE )
+	ASSERT_NEAR( z1, z2, TOLERANCE )
 	ASSERT_QUAT_EQ( qConjugate, eigen.conjugate( q ) )
 end
 
@@ -96,10 +96,10 @@ function getAngleAxisTest2()
 	eigen.rotateQuat( q, 180, eigen.Vec3( 1, 0, 0 ) )
 
 	local angle, axis = eigen.getAngleAxis( q )
-	ASSERT_DOUBLE_EQ( angle, 180, DOUBLE_TOLERANCE )
-	ASSERT_DOUBLE_EQ( axis.x, 0, DOUBLE_TOLERANCE )
-	ASSERT_DOUBLE_EQ( axis.y, 1, DOUBLE_TOLERANCE )
-	ASSERT_DOUBLE_EQ( axis.z, 0, DOUBLE_TOLERANCE )
+	ASSERT_DOUBLE_EQ( angle, 180, TOLERANCE )
+	ASSERT_DOUBLE_EQ( axis.x, 0, TOLERANCE )
+	ASSERT_DOUBLE_EQ( axis.y, 1, TOLERANCE )
+	ASSERT_DOUBLE_EQ( axis.z, 0, TOLERANCE )
 end
 
 function dotCrossConjTest()
