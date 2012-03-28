@@ -4,7 +4,7 @@
 
 local eigen = require "eigen"
 
-local DOUBLE_TOLERANCE = 1e-7
+local TOLERANCE = 1e-7
 
 -----------------------------
 -- Quaternion Tests
@@ -13,10 +13,10 @@ local DOUBLE_TOLERANCE = 1e-7
 local function ASSERT_QUAT_EQ( q1, q2 )
 	local w1,x1,y1,z1 = eigen.getWXYZ( q1 )
 	local w2,x2,y2,z2 = eigen.getWXYZ( q2 )
-	ASSERT_NEAR( w1, w2, DOUBLE_TOLERANCE )
-	ASSERT_NEAR( x1, x2, DOUBLE_TOLERANCE )
-	ASSERT_NEAR( y1, y2, DOUBLE_TOLERANCE )
-	ASSERT_NEAR( z1, z2, DOUBLE_TOLERANCE )
+	ASSERT_NEAR( w1, w2, TOLERANCE )
+	ASSERT_NEAR( x1, x2, TOLERANCE )
+	ASSERT_NEAR( y1, y2, TOLERANCE )
+	ASSERT_NEAR( z1, z2, TOLERANCE )
 end
 
 local q1
@@ -30,7 +30,7 @@ function invMulTest()
 	q1 = eigen.Quat()
 	q2 = eigen.Quat()
 	q3 = eigen.Quat()
-	eigen.setWXYZ( q1, 0, 1, 1, -1 )	
+	eigen.setWXYZ( q1, 0, 1, 1, -1 )
 	eigen.inverseQuat( q1, q2 )
 	eigen.mulQuat( q1, q2, q3 )
 	q1 = eigen.Quat()
@@ -75,14 +75,14 @@ function rotationFromToTest()
 	ASSERT_NEAR( x1, x2, DOUBLE_TOLERANCE )
 	ASSERT_NEAR( y1, y2, DOUBLE_TOLERANCE )
 	ASSERT_NEAR( z1, z2, DOUBLE_TOLERANCE )
-	ASSERT_QUAT_EQ( qConjugate, eigen.conjugate( q ) ) 
+	ASSERT_QUAT_EQ( qConjugate, eigen.conjugate( q ) )
 end
 
 function getAngleAxisTest()
 	local q = eigen.Quat()
 	eigen.setWXYZ( q, 0, 0, 1, 0 )
 	eigen.rotateQuat( q, 180, eigen.Vec3( 0, 1, 0 ) )
-	
+
 	local angle, axis = eigen.getAngleAxis( q )
 	ASSERT_NEAR( angle, 180 )
 	ASSERT_NEAR( axis.x, 0 )
@@ -94,7 +94,7 @@ function getAngleAxisTest2()
 	local q = eigen.Quat()
 	eigen.setWXYZ( q, 0, 0, 1, 0 )
 	eigen.rotateQuat( q, 180, eigen.Vec3( 1, 0, 0 ) )
-	
+
 	local angle, axis = eigen.getAngleAxis( q )
 	ASSERT_DOUBLE_EQ( angle, 180, DOUBLE_TOLERANCE )
 	ASSERT_DOUBLE_EQ( axis.x, 0, DOUBLE_TOLERANCE )

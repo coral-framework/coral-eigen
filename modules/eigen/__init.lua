@@ -5,10 +5,7 @@ local M = {}
 -------------------------------------------------------------------------------
 function M.Vec3( x, y, z )
 	out = co.new "eigen.Vec3"
-	out:setXYZ( 0, 0, 0 )
-	if z then
-		out:setXYZ( x, y, z )
-	end
+	out:setXYZ( x or 0, y or 0, z or 0 )
 	return out
 end
 
@@ -25,11 +22,11 @@ function  M.Quat( other )
 end
 
 --[[---------------------------------------------------------------------------
-	All the functions mimics GLSL API. Except for an optional "out" parameter 
-	that be used as	return value for efficiency. All functions create and 
-	return a new type if "out" is nil. Do not pass the same reference to a 
-	function's second parameter and out. 
-		eg: 
+	All the functions mimics GLSL API. Except for an optional "out" parameter
+	that be used as	return value for efficiency. All functions create and
+	return a new type if "out" is nil. Do not pass the same reference to a
+	function's second parameter and out.
+		eg:
 			local v = eigen.vec3(); eigen.cross( otherV, v, v )
 --]]---------------------------------------------------------------------------
 
@@ -40,15 +37,9 @@ end
 --]]
 function M.screenToClip( x, y, width, height )
 	local cw = math.floor( width * 0.5 )
-	local ch = math.floor( height * 0.5 )	
+	local ch = math.floor( height * 0.5 )
 	return ( x / cw ) - 1.0, ( y / ch ) - 1.0
 end
-
--- Constants
-M.PI = 3.14159265358979323846
-M.PI_2 = M.PI * 0.5
-M.rad2deg = 180 / M.PI
-M.deg2rad = M.PI / 180
 
 -------------------------------------------------------------------------------
 -- Vec3 functions
@@ -58,10 +49,10 @@ function M.crossVec( v1, v2, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v1 )
 	out:cross( v2 )
-	return out	
+	return out
 end
-	
--- returns the float dot product of Vec3 v1 and v2  
+
+-- returns the float dot product of Vec3 v1 and v2
 function M.dotVec( v1, v2 )
 	return v1:dot( v2 )
 end
@@ -76,7 +67,7 @@ function M.lerp( v1, v2, factor, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v1 )
 	out:mix( v2, factor )
-	return out	
+	return out
 end
 
 -- returns the Vec3 normalized copy Vec3 v
@@ -84,17 +75,17 @@ function M.normalize( v, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v )
 	out:normalize()
-	return out	
+	return out
 end
 
 --------- Multiple Getters/Setters ---------
 
--- returns the float components of Vec3 v 
+-- returns the float components of Vec3 v
 function M.getXYZ( v )
 	return v:getXYZ()
 end
 
--- sets the float components x,y,z of Vec3 v  
+-- sets the float components x,y,z of Vec3 v
 function M.setXYZ( v, x, y, z )
 	v:setXYZ( x, y, z )
 end
@@ -107,7 +98,7 @@ function M.addVec( v1, v2, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v1 )
 	out:add( v2 )
-	return out	
+	return out
 end
 
 -- returns the Vec3 result of v1 - v2
@@ -115,7 +106,7 @@ function M.subVec( v1, v2, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v1 )
 	out:sub( v2 )
-	return out	
+	return out
 end
 
 -- returns the Vec3 result of Vec3 v * Scalar s
@@ -123,7 +114,7 @@ function M.mulVecScalar( v, s, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v )
 	out:mul( s )
-	return out	
+	return out
 end
 
 -- returns the Vec3 result of Vec3 v / Scalar s
@@ -131,7 +122,7 @@ function M.divVecScalar( v, s, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v )
 	out:mul( 1 / s )
-	return out	
+	return out
 end
 
 -- returns the Vec3 result of (inverse of Quat q) * Vec3 v
@@ -139,7 +130,7 @@ function M.mulVecQuat( v, q, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v )
 	out:mulVecQuat( q )
-	return out	
+	return out
 end
 
 -- returns the Vec3 result of Quat q * Vec3 v
@@ -147,11 +138,11 @@ function M.mulQuatVec( q, v, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v )
 	out:mulQuatVec( q )
-	return out	
+	return out
 end
 
 -------------------------------------------------------------------------------
--- Mat4 functions 
+-- Mat4 functions
 -------------------------------------------------------------------------------
 -- returns m[i][j]
 function M.getElement( m, i, j )
@@ -166,18 +157,18 @@ function M.fromQuat( q, out )
 end
 
 -- basic algebric operations returns the identity matrix
-function M.identity( out ) 
+function M.identity( out )
 	out = out or co.new "eigen.Mat4"
 	out:identity()
 	return out
 end
-	
+
 -- returns the Mat4 inserve of m
 function M.inverseMat( m, out )
 	out = out or co.new "eigen.Mat4"
 	out:copy( m )
 	out:invert()
-	return out	
+	return out
 end
 
 -- returns the Mat4 inserve of m
@@ -185,7 +176,7 @@ function M.transpose( m, out )
 	out = out or co.new "eigen.Mat4"
 	out:copy( m )
 	out:transpose()
-	return out	
+	return out
 end
 
 -- rotates a copy of Mat4 m by Scalar degrees around Vec3 axis and returns it
@@ -193,14 +184,14 @@ function M.rotate( m, degrees, axis, out )
 	out = out or co.new "eigen.Mat4"
 	out:copy( m )
 	out:rotate( degrees, axis )
-	return out	
+	return out
 end
 
 -- returns a Mat4 that rotates a direction from Vec3 from to Vec3 to
 function M.rotationFromToMat4( from, to, out )
 	out = out or co.new "eigen.Mat4"
 	out:rotationFromTo( from, to )
-	return out	
+	return out
 end
 
 -- scales a copy of m by the amount on each axis of Vec3 scale and returns it
@@ -208,7 +199,7 @@ function M.scale( m, scale, out )
 	out = out or co.new "eigen.Mat4"
 	out:copy( m )
 	out:scale( scale )
-	return out	
+	return out
 end
 
 -- translates a copy of m by Vec3 position and returns it
@@ -216,7 +207,7 @@ function M.translate( m, position, out )
 	out = out or co.new "eigen.Mat4"
 	out:copy( m )
 	out:translate( position )
-	return out	
+	return out
 end
 
 -- returns the Vec3 result of ( Mat4 m * Vec3 v )
@@ -224,7 +215,7 @@ function M.transform( m, v, out )
 	out = out or co.new "eigen.Vec3"
 	out:copy( v )
 	out:transform( m )
-	return out	 
+	return out
 end
 
 -- returns the mat4 result of mat4 m1 + m2
@@ -252,7 +243,7 @@ function M.mulMatScalar( m, s, out )
 end
 
 -------------------------------------------------------------------------------
--- Camera Operations functions 
+-- Camera Operations functions
 -------------------------------------------------------------------------------
 -- parameters: vec3 eye, vec3 center and vec3 up
 function M.lookAt( eye, center, up, out )
@@ -283,7 +274,7 @@ function M.frustum( left, right, bottom, top, nearVal, farVal, out )
 end
 
 -------------------------------------------------------------------------------
--- Quat functions 
+-- Quat functions
 -------------------------------------------------------------------------------
 -- gets Quat q Scalar w,x,y,z coordinates
 function M.getWXYZ( q )
@@ -344,7 +335,7 @@ function M.mulQuat( q1, q2, out )
 	return out
 end
 
--- returns the Quat result of shortest path SLERP between Quat q1 and q2 
+-- returns the Quat result of shortest path SLERP between Quat q1 and q2
 function M.mix( q1, q2, factor, out )
 	out = out or co.new "eigen.Quat"
 	out:copy( q1 )
@@ -364,11 +355,11 @@ end
 function M.rotationFromToQuat( from, to, out )
 	out = out or co.new "eigen.Quat"
 	out:rotationFromTo( from, to )
-	return out	
+	return out
 end
 
 -------------------------------------------------------------------------------
--- Specific operators 
+-- Specific operators
 -------------------------------------------------------------------------------
 local coTypeOf = co.typeOf
 
@@ -384,7 +375,7 @@ function M.vecMulOperator( a, b )
 		return M.mulVecQuat( a, b )
 	else
 		error( "there is no operation between a eigen.vec3 and the type passed" )
-	end	
+	end
 end
 
 -- function for overloading the * operator for quat (tests which parameter is a scalar)
@@ -396,7 +387,7 @@ function M.quatMulOperator( a, b )
 		return M.mulQuatVec( a, b )
 	else
 		error( "there is no operation between a eigen.vec3 and the type passed" )
-	end	
+	end
 end
 
 -- function for overloading the * operator for vec3 (tests which parameter is a scalar)
@@ -421,7 +412,7 @@ function M.matMulOperator( a, b )
 		return M.transform( a, b )
 	else
 		error( "there is no operation between a eigen.mat4 and the type passed" )
-	end	
+	end
 end
 
 --operators for quat
