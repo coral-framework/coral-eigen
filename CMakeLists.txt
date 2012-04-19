@@ -11,7 +11,8 @@ PROJECT( CORAL_EIGEN )
 ################################################################################
 
 # Load Coral's CMake package
-set( CMAKE_MODULE_PATH "${CORAL_ROOT}/cmake" "$ENV{CORAL_ROOT}/cmake" ${CMAKE_MODULE_PATH} )
+file( TO_CMAKE_PATH "$ENV{CORAL_ROOT}" CORAL_ROOT )
+set( CMAKE_MODULE_PATH "${CORAL_ROOT}/cmake" "${CORAL_ROOT}/cmake" ${CMAKE_MODULE_PATH} )
 find_package( Coral REQUIRED )
 
 SET( CORAL_PATH
