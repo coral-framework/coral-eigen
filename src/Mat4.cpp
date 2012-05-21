@@ -2,12 +2,10 @@
 
 namespace eigen {
 
-static const double PI = 3.14159265358979323846;
-
 void Mat4_Adapter::add( eigen::Mat4& instance, const eigen::Mat4& m )
 {
 	instance += m;
-}	
+}
 
 void Mat4_Adapter::copy( eigen::Mat4& instance, const eigen::Mat4& m )
 {
@@ -50,32 +48,15 @@ void Mat4_Adapter::invert( eigen::Mat4& instance )
 
 void Mat4_Adapter::lookAt( eigen::Mat4& instance, const eigen::Vec3& eye, const eigen::Vec3& center, const eigen::Vec3& up )
 {
-	Vec3 forward = center - eye;
-	forward = forward.normalized();
-        
-	Vec3 newUp = up.normalized();
-	
-	Vec3 side = forward.cross( newUp );
-	side = side.normalized();
+	Vec3 zaxis = ( eye - center ).normalized();
+	Vec3 xaxis = up.cross( zaxis ).normalized();
+	Vec3 yaxis = zaxis.cross( xaxis );
 
-	newUp = side.cross( forward );
+	Eigen::Affine3d t( Eigen::Affine3d::Identity() );
+	t.linear() << xaxis, yaxis, zaxis;
+	t.pretranslate( -eye );
 
-	instance = instance.Identity();
-
-	instance( 0, 0 ) = side.x();
-	instance( 0, 1 ) = side.y();
-	instance( 0, 2 ) = side.z();
-	instance( 1, 0 ) = newUp.x();
-	instance( 1, 1 ) = newUp.y();
-	instance( 1, 2 ) = newUp.z();
-	instance( 2, 0 ) = -forward.x();	
-	instance( 2, 1 ) = -forward.y(); 	
-	instance( 2, 2 ) = -forward.z(); 
-
-	Eigen::Transform<double, 3, Eigen::Affine> t;
-    t = Eigen::Translation<double, 3>( -eye );
-
-	instance = t * instance;
+	instance = t.matrix();
 }
 
 void Mat4_Adapter::mulScalar( eigen::Mat4& instance, double value )
@@ -92,14 +73,14 @@ void Mat4_Adapter::ortho( eigen::Mat4& instance, double left, double right, doub
 	instance( 2, 2 ) = -1;
 
 	instance( 0, 3 ) = - (right + left) / (right - left);
-	instance( 1, 3 ) = - (up + bottom) / (up - bottom);	
+	instance( 1, 3 ) = - (up + bottom) / (up - bottom);
 }
 
 void Mat4_Adapter::perspective( eigen::Mat4& instance, double fovy, double aspect, double zNear, double zFar )
-{	
-	double radians = (fovy / 2) * PI / 180;
+{
+	double radians = (fovy / 2) * M_PI / 180;
 
-	double range = std::tan(radians) * zNear;	
+	double range = std::tan(radians) * zNear;
 	double left = -range * aspect;
 	double right = range * aspect;
 	double bottom = -range;
@@ -126,8 +107,8 @@ void Mat4_Adapter::preMul( eigen::Mat4& instance, const eigen::Mat4& m )
 
 void Mat4_Adapter::rotate( eigen::Mat4& instance, double degrees, const eigen::Vec3& axis )
 {
-	double radians = degrees * PI / 180;	
-	
+	double radians = degrees * M_PI / 180;
+
 	Eigen::Transform<double, 3, Eigen::Affine> t;
 	t = Eigen::AngleAxisd( radians, axis.normalized() ); //The axis vector must be normalized.
 
@@ -138,10 +119,10 @@ void Mat4_Adapter::rotationFromTo( eigen::Mat4& instance, const eigen::Vec3& fro
 {
 	eigen::Vec3 nFrom = from.normalized();
 	eigen::Vec3 nTo =  to.normalized();
-	
+
 	double angle = std::acos( nFrom.dot( nTo ) ); //radians
 	eigen::Vec3 axis =  nFrom.cross( nTo );
-	
+
 	Eigen::Transform<double, 3, Eigen::Affine> t;
 	t = Eigen::AngleAxisd( angle, axis.normalized() ); //The axis vector must be normalized.
 

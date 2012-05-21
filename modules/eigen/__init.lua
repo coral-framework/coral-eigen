@@ -415,23 +415,31 @@ function M.matMulOperator( a, b )
 	end
 end
 
---operators for quat
-M.zeroQuat = co.new "eigen.Quat"
-local quatMT = getmetatable( M.zeroQuat )
-quatMT.__mul = M.quatMulOperator
-
--- operators for mat4
-M.idMat = co.new "eigen.Mat4"
-local matMT = getmetatable( M.idMat )
-matMT.__mul = M.matMulOperator
-matMT.__add = M.addMat
-
--- operators for vec3
-M.zeroVec = co.new "eigen.Vec3"
-local vecMT = getmetatable( M.zeroVec )
+-- operators for Vec3
+M.identityVec3 = co.new "eigen.Vec3"
+local vecMT = getmetatable( M.identityVec3 )
 vecMT.__add = M.addVec
 vecMT.__sub = M.subVec
 vecMT.__div = M.vecDivOperator
 vecMT.__mul = M.vecMulOperator
+function vecMT.__tostring( v )
+	local x, y, z = v:getXYZ()
+	return "eigen.Vec3( " .. x .. ", " .. y .. ", " .. z .. " )"
+end
+
+-- operators for Quat
+M.identityQuat = co.new "eigen.Quat"
+local quatMT = getmetatable( M.identityQuat )
+quatMT.__mul = M.quatMulOperator
+function quatMT.__tostring( v )
+	local w, x, y, z = v:getWXYZ()
+	return "eigen.Quat( " .. w .. ", " .. x .. ", " .. y .. ", " .. z .. " )"
+end
+
+-- operators for Mat4
+M.identityMat4 = co.new "eigen.Mat4"
+local matMT = getmetatable( M.identityMat4 )
+matMT.__mul = M.matMulOperator
+matMT.__add = M.addMat
 
 return M
