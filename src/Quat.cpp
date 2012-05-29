@@ -2,6 +2,13 @@
 
 namespace eigen {
 
+static const double PI = 3.14159265358979323846;
+
+void Quat_Adapter::setIdentity( eigen::Quat& instance )
+{
+	instance = Eigen::Quaterniond::Identity();
+}
+
 void Quat_Adapter::getAngleAxis( eigen::Quat& instance, double& degrees, eigen::Vec3& axis )
 {
 	Eigen::AngleAxisd aa = Eigen::AngleAxisd( instance );

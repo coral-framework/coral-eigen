@@ -9,7 +9,8 @@ native class Quat
 	double x;
 	double y;
 	double z;
-
+	
+	void setIdentity();
 	void setWXYZ( in double w, in double x, in double y, in double z );
 	void getWXYZ( out double w, out double x, out double y, out double z );
 	void getAngleAxis( out double degrees, out Vec3 axis );

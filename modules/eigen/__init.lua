@@ -15,7 +15,7 @@ function M.Mat4()
 	return out
 end
 
-function  M.Quat( other )
+function  M.Quat()
 	out = co.new "eigen.Quat"
 	out:setWXYZ( 1, 0, 0, 0 )
 	return out
@@ -276,6 +276,11 @@ end
 -------------------------------------------------------------------------------
 -- Quat functions
 -------------------------------------------------------------------------------
+function M.setIdentityQuat( q )
+	q:setIdentity()
+	return q
+end
+
 -- gets Quat q Scalar w,x,y,z coordinates
 function M.getWXYZ( q )
 	return q:getWXYZ()
@@ -372,7 +377,7 @@ function M.vecMulOperator( a, b )
 	elseif not typeB then
 		return M.mulVecScalar( a, b )
 	elseif typeB == "eigen.Quat" then
-		return M.mulVecQuat( a, b )
+		error( "Vectors must be multiplied from right side of quaternion instance" )
 	else
 		error( "there is no operation between a eigen.vec3 and the type passed" )
 	end

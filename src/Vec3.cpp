@@ -88,7 +88,7 @@ void Vec3_Adapter::mul( eigen::Vec3& instance, double value )
 
 void Vec3_Adapter::mulVecQuat( eigen::Vec3& instance, const eigen::Quat& q )
 {	
-	Quat quat = q.inverse();
+	Quat quat = q.conjugate();
 	instance = quat * instance;
 }
 
