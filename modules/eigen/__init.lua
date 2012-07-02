@@ -446,5 +446,17 @@ M.identityMat4 = co.new "eigen.Mat4"
 local matMT = getmetatable( M.identityMat4 )
 matMT.__mul = M.matMulOperator
 matMT.__add = M.addMat
+function matMT.__tostring( v )
+	local msg = "eigen.Mat[ "
+	for i=0, 3 do
+		for j=0, 3 do
+			local val = v:getElement( i, j )
+			msg = msg .. val .. " "
+		end
+	end
+	msg = msg .. "] "
+	return msg
+end
+
 
 return M
