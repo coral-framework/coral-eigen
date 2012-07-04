@@ -102,8 +102,4 @@ function QuatMulTest()
 	local v2 = eigen.Vec3( 0, 0, -1 )
 	v1 = q * v1
 	ASSERT_VEC_EQ( v1, v2 )
-	v1 = eigen.Vec3( 1, 0, 0 )
-	v2 = eigen.Vec3( 0, 0, 1 )
-	v1 = v1 * q
-	ASSERT_VEC_EQ( v1, v2 )
 end
