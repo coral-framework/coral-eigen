@@ -48,15 +48,30 @@ void Mat4_Adapter::invert( eigen::Mat4& instance )
 
 void Mat4_Adapter::lookAt( eigen::Mat4& instance, const eigen::Vec3& eye, const eigen::Vec3& center, const eigen::Vec3& up )
 {
-	Vec3 zaxis = ( eye - center ).normalized();
-	Vec3 xaxis = up.cross( zaxis ).normalized();
-	Vec3 yaxis = zaxis.cross( xaxis );
+	
+	instance = instance.Identity();
 
-	Eigen::Affine3d t( Eigen::Affine3d::Identity() );
-	t.linear() << xaxis, yaxis, zaxis;
-	t.pretranslate( -eye );
+	Vec3 f = ( center - eye ).normalized();
+	Vec3 u = up.normalized();
+	Vec3 s = f.cross( u ).normalized();
+	u = s.cross( f );
 
-	instance = t.matrix();
+	instance( 0, 0 ) = s[0];
+	instance( 0, 1 ) = s[1];
+ 	instance( 0, 2 ) = s[2];
+
+	instance( 1, 0 ) = u[0];
+	instance( 1, 1 ) = u[1];
+	instance( 1, 2 ) = u[2];
+
+	instance( 2, 0 ) = -f[0];
+	instance( 2, 1 ) = -f[1];
+	instance( 2, 2 ) = -f[2];
+
+	instance( 0, 3 ) = -eye.dot(s);
+	instance( 1, 3 ) = -eye.dot(u);
+	instance( 2, 3 ) = eye.dot(f);
+
 }
 
 void Mat4_Adapter::mulScalar( eigen::Mat4& instance, double value )

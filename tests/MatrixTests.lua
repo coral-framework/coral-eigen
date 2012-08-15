@@ -125,14 +125,68 @@ function fromQuatTest()
 	end
 end
 
+local lookAtDataZUp = 
+{
+{xp=0,yp=0,zp=0,xc=0,yc=1,zc=0},
+{xp=0,yp=0,zp=0,xc=1,yc=0,zc=0},
+{xp=0,yp=0,zp=0,xc=-1,yc=0,zc=0},
+{xp=0,yp=0,zp=0,xc=0,yc=-1,zc=0},
+
+{xp=15684,yp=87495,zp=964152,xc=1,yc=1,zc=0},
+
+{xp=-15684,yp=-87495,zp=-964152,xc=1,yc=1,zc=0.8},
+{xp=15684,yp=-87495,zp=-964152,xc=1,yc=1,zc=0.1},
+{xp=-15684,yp=87495,zp=-964152,xc=1,yc=1,zc=0.3},
+{xp=-14584,yp=-87462595,zp=333152,xc=0.00001,yc=1,zc=0.5}
+
+
+
+}
+
+
+
+function lookatTest()
+
+	for index,value in ipairs(lookAtDataZUp) do
+
+		local pos1 = eigen.Vec3( value.xp, value.yp, value.zp )
+		local at1 = eigen.Vec3( value.xc, value.yc, value.zc )
+		local up1 = eigen.Vec3( 0, 0, 1 )
+		local dirFront1 = eigen.normalize( eigen.subVec( at1, pos1 ) )
+		local m1 = eigen.lookAt( pos1, at1, up1 )
+		local dirRight1 = eigen.normalize( eigen.crossVec( dirFront1 , eigen.normalize(up1)))
+		
+		local m2 = eigen.inverseMat( m1 )
+		local pos2 = eigen.transform( m2, eigen.Vec3( 0, 0, 0 ) ) --camera position
+		local at2 = eigen.transform( m2, eigen.Vec3( 0, 0, -1 ) ) --camera front
+		local right2 = eigen.transform( m2, eigen.Vec3( 1, 0, 0 ) ) --camera right
+		local dirFront2 = eigen.normalize( eigen.subVec( at2, pos2 ) )
+		local dirRight2 = eigen.normalize( eigen.subVec( right2, pos2 ) )
+		
+		local x1,y1,z1 = eigen.getXYZ( pos1 )
+		local x2,y2,z2 = eigen.getXYZ( pos2 )
+		ASSERT_NEAR( x1, x2, TOLERANCE )
+		ASSERT_NEAR( y1, y2, TOLERANCE )
+		ASSERT_NEAR( z1, z2, TOLERANCE )
+		
+		x1,y1,z1 = eigen.getXYZ( dirFront1 )
+		x2,y2,z2 = eigen.getXYZ( dirFront2 )
+		ASSERT_NEAR( x1, x2, TOLERANCE )
+		ASSERT_NEAR( y1, y2, TOLERANCE )
+		ASSERT_NEAR( z1, z2, TOLERANCE )
+		
+		x1,y1,z1 = eigen.getXYZ( dirRight1 )
+		x2,y2,z2 = eigen.getXYZ( dirRight2 )
+		ASSERT_NEAR( x1, x2, TOLERANCE )
+		ASSERT_NEAR( y1, y2, TOLERANCE )
+		ASSERT_NEAR( z1, z2, TOLERANCE )
+
+
+	end
+
+end
+
 function cameraTest()
-	m1 = eigen.lookAt( eigen.Vec3( 0, 0, -1 ), eigen.Vec3( 0, 0, 1 ), eigen.Vec3( 0, 1, 0 ) )
-	ASSERT_NEAR( eigen.getElement( m1, 0, 0 ), -1 )
-	ASSERT_NEAR( eigen.getElement( m1, 2, 2 ), -1 )
-	--translation
-	ASSERT_NEAR( eigen.getElement( m1, 0, 3 ), 0 )
-	ASSERT_NEAR( eigen.getElement( m1, 1, 3 ), 0 )
-	ASSERT_NEAR( eigen.getElement( m1, 2, 3 ), 1 )
 
 	m2 = eigen.frustum( -1, 1, -1, 1, 2, 4 )
 	ASSERT_NEAR( eigen.getElement( m2, 0, 0 ), 2, TOLERANCE )
@@ -149,9 +203,6 @@ function cameraTest()
 	ASSERT_DOUBLE_EQ( eigen.getElement( m4, 2, 2 ), -11/9 )
 	ASSERT_DOUBLE_EQ( eigen.getElement( m4, 3, 2 ), -1 )
 
-	m1 = m3 * m1
-	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 0, 0 ), -1 )
-	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 2, 2 ), 1 )
-	ASSERT_DOUBLE_EQ( eigen.getElement( m1, 2, 3 ), -1 )
+
 end
 
