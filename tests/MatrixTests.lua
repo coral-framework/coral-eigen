@@ -96,6 +96,71 @@ function invTranpTest()
 	ASSERT_NEAR( eigen.getElement( m1, 3, 0 ), -2, TOLERANCE )
 	ASSERT_NEAR( eigen.getElement( m1, 3, 1 ), -2, TOLERANCE )
 	ASSERT_NEAR( eigen.getElement( m1, 3, 2 ), -2, TOLERANCE )
+	
+	elements = m1.elements
+	
+	EXPECT_NEAR( eigen.getElement( m1, 0, 0 ), elements[1], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 1, 0 ), elements[2], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 2, 0 ), elements[3], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 3, 0 ), elements[4], TOLERANCE )
+	
+	EXPECT_NEAR( eigen.getElement( m1, 0, 1 ), elements[5], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 1, 1 ), elements[6], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 2, 1 ), elements[7], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 3, 1 ), elements[8], TOLERANCE )	
+	
+	EXPECT_NEAR( eigen.getElement( m1, 0, 2 ), elements[9], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 1, 2 ), elements[10], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 2, 2 ), elements[11], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 3, 2 ), elements[12], TOLERANCE )
+	
+	EXPECT_NEAR( eigen.getElement( m1, 0, 3 ), elements[13], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 1, 3 ), elements[14], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 2, 3 ), elements[15], TOLERANCE )
+	EXPECT_NEAR( eigen.getElement( m1, 3, 3 ), elements[16], TOLERANCE )
+	
+end
+
+function elementsAssignTest()
+	
+	m1 = eigen.Mat4()
+	
+	local matrix = {}
+	
+	for i = 1, 16 do
+		matrix[i] = 2*i
+	end
+	
+	m1.elements = matrix
+	
+	EXPECT_NEAR( m1:getElement( 0, 0 ), matrix[1], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 0, 1 ), matrix[5], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 0, 2 ), matrix[9], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 0, 3 ), matrix[13], TOLERANCE )
+	
+	EXPECT_NEAR( m1:getElement( 1, 0 ), matrix[2], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 1, 1 ), matrix[6], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 1, 2 ), matrix[10], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 1, 3 ), matrix[14], TOLERANCE )	
+	
+	EXPECT_NEAR( m1:getElement( 2, 0 ), matrix[3], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 2, 1 ), matrix[7], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 2, 2 ), matrix[11], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 2, 3 ), matrix[15], TOLERANCE )
+	
+	EXPECT_NEAR( m1:getElement( 3, 0 ), matrix[4], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 3, 1 ), matrix[8], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 3, 2 ), matrix[12], TOLERANCE )
+	EXPECT_NEAR( m1:getElement( 3, 3 ), matrix[16], TOLERANCE )
+	
+	local row = ""
+	
+	elements = m1.elements
+	
+	for i = 1, 16 do
+		EXPECT_NEAR( elements[i], matrix[i], TOLERANCE )
+	end
+
 end
 
 function rotationFromToTest()

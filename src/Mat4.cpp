@@ -1,6 +1,28 @@
 #include "Mat4_Adapter.h"
+#include <vector>
+#include <co/Log.h>
 
 namespace eigen {
+
+co::Range<double const> Mat4_Adapter::getElements( eigen::Mat4& instance )
+{
+	
+	return co::Range<double const>( instance.data(), 16 );
+
+}
+
+void Mat4_Adapter::setElements( eigen::Mat4& instance, co::Range<double const> elements )
+{
+	assert( elements.getSize() == 16 );
+
+	for( int i = 0; i < 16; i++ )
+	{
+		instance << elements[0], elements[4], elements[8], elements[12],
+					elements[1], elements[5], elements[9], elements[13],
+					elements[2], elements[6], elements[10], elements[14],
+					elements[3], elements[7], elements[11], elements[15];
+	}
+}
 
 void Mat4_Adapter::add( eigen::Mat4& instance, const eigen::Mat4& m )
 {

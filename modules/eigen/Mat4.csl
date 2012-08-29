@@ -5,6 +5,9 @@ native class Mat4
 		namespace eigen { typedef Eigen::Matrix4d Mat4; }
 	c++>
 
+	// Column major array of elements
+	double[] elements;
+	
 	double getElement( in int32 i, in int32 j );
 
 	void rotate( in double degrees, in Vec3 axis );
