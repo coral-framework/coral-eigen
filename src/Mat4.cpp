@@ -4,14 +4,13 @@
 
 namespace eigen {
 
-co::Range<double> Mat4_Adapter::getElements( eigen::Mat4& instance )
+co::TSlice<double> Mat4_Adapter::getElements( eigen::Mat4& instance )
 {
-	
-	return co::Range<double>( instance.data(), 16 );
+	return co::TSlice<double>( instance.data(), 16 );
 
 }
 
-void Mat4_Adapter::setElements( eigen::Mat4& instance, co::Range<double> elements )
+void Mat4_Adapter::setElements( eigen::Mat4& instance, co::Slice<double> elements )
 {
 	assert( elements.getSize() == 16 );
 
