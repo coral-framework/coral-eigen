@@ -23,4 +23,8 @@ coral_module_target( "eigen" eigen )
 # Source Groups
 ################################################################################
 
+# install shared library
+install( TARGETS eigen DESTINATION modules/eigen )
+
+
 source_group( "@Generated" FILES ${_MODULE_SOURCES} )

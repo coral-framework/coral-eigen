@@ -2,7 +2,20 @@ native class Mat4
 {
 	<c++
 		#include <Eigen/Geometry>
-		namespace eigen { typedef Eigen::Matrix4d Mat4; }
+		namespace eigen { 
+			typedef Eigen::Matrix4d Mat4; 
+		
+			inline bool operator==( const Mat4& a, const Mat4& b )
+			{
+				for( int i = 0; i < 16; i++ )
+				{
+					if( a.data()[i] != b.data()[i] )
+						return false;
+				}
+				return true;
+			}
+			
+		}
 	c++>
 
 	// Column major array of elements

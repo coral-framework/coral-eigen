@@ -27,9 +27,6 @@ SET( CORAL_PATH
 # Installation
 ################################################################################
 
-# install shared library
-INSTALL( DIRECTORY ${CMAKE_BINARY_DIR}/modules/eigen DESTINATION modules )
-
 #install eigen headers
 INSTALL( DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include )
 
